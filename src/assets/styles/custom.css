@@ -1,0 +1,21 @@
+.post_manager {
+    display: flex;
+    width: 100%;
+}
+
+.post_left {
+    width: 75%;
+}
+
+.post_right {
+    width: 25%;
+}
+
+.upload_css {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 30px 10px;
+    border: .5px #ccc solid;
+    border-radius: 5px;
+}
