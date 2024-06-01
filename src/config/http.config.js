@@ -30,9 +30,9 @@ http.interceptors.response.use(
       }
     }
     if (res.data.statusCode === 403) {
-      localStorage.clear();
-      cookies.remove("auth_t");
-      window.location.href = "/";
+      // localStorage.clear();
+      // cookies.remove("auth_t");
+      // window.location.href = "/";
     }
     return res;
   },

@@ -5,7 +5,8 @@ function PublicRouter() {
   const cookies = new Cookies();
   const token = cookies.get("auth_t");
 
-  return !token ? <Outlet /> : <Navigate to={{ pathname: "/" }} />;
+  // return !token ? <Outlet /> : <Navigate to={{ pathname: "/" }} />;
+  return <Navigate to={{ pathname: "/" }} />;
 }
 
 export default PublicRouter;
