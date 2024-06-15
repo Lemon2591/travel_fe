@@ -106,7 +106,7 @@ function Sidenav({ color }) {
             >
               {tables}
             </span>
-            <span className="label">Đăng bài viết mới</span>
+            <span className="label">Quản lý bài viết</span>
           </NavLink>
         </Menu.Item>
         <Menu.Item key="3">
@@ -132,7 +132,7 @@ function Sidenav({ color }) {
             >
               <AiFillFileText />
             </span>
-            <span className="label">Quản lý bài viết</span>
+            <span className="label">Tạo bài viết</span>
           </NavLink>
         </Menu.Item>
       </Menu>

@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import EditorCommon from "../components/Editor/Editor";
 import { Button } from "antd";
 import { createPost } from "../api/api";
@@ -16,12 +16,13 @@ import { AiFillCopy, AiOutlineUpload } from "react-icons/ai";
 import { stringToSlug } from "../helper/helper";
 import axios from "axios";
 import LoadingScreen from "../components/loading/LoadingScreen";
-
+import { useSelector } from "react-redux";
 const { TextArea } = Input;
 
 const PostManager = () => {
   const editorRef = useRef();
   const form_ref = useRef();
+  const { user_details } = useSelector((state) => state?.user);
   const [content, setContent] = useState("");
   const [thumbnail, setThumbnail] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -126,6 +127,23 @@ const PostManager = () => {
     setUrl(slug);
   };
 
+  useEffect(() => {
+    function listener(e) {
+      e.preventDefault();
+      return "msg";
+    }
+    const content_html = editorRef?.current?.getContent();
+    if (content_html) {
+      window.addEventListener("beforeunload", listener);
+    }
+
+    return () => {
+      window.removeEventListener("beforeunload", listener);
+    };
+  }, [content]);
+
+  console.log(user_details);
+
   return (
     <>
       {loadingSc && <LoadingScreen />}
@@ -174,16 +192,10 @@ const PostManager = () => {
                   >
                     <Select
                       placeholder={"Chọn thể loại..."}
-                      options={[
-                        {
-                          label: "Food",
-                          value: 1,
-                        },
-                        {
-                          label: "Travel",
-                          value: 2,
-                        },
-                      ]}
+                      options={user_details?.category_list?.map((val) => ({
+                        label: val?.category_name,
+                        value: val?.id,
+                      }))}
                     />
                   </Form.Item>
                 </div>
@@ -240,6 +252,7 @@ const PostManager = () => {
                 data={content}
                 ref={editorRef}
                 onUpload={onUpload}
+                setContent={setContent}
               />
             </div>
           </div>
@@ -262,12 +275,10 @@ const PostManager = () => {
               >
                 <Select
                   placeholder={"Website của bạn"}
-                  options={[
-                    {
-                      label: "https://lemondev.id.vn",
-                      value: 1,
-                    },
-                  ]}
+                  options={user_details?.websites?.map((val) => ({
+                    label: val?.websites?.name_website,
+                    value: val?.website_id,
+                  }))}
                 />
               </Form.Item>
             </div>

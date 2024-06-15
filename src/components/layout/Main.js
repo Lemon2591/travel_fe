@@ -41,6 +41,7 @@ function Main({ children }) {
         if (res?.data?.statusCode !== 200) {
           return;
         }
+
         dispatch({ type: constants.GET_USER, payload: res?.data?.data });
         dispatch({ type: constants.HANDLE_LOADING_ELEMENT, payload: false });
       } catch (error) {
