@@ -22,7 +22,10 @@ http.interceptors.response.use(
       try {
         const response = await http.get("/api/refresh-token");
         if (response.data.statusCode === 200) {
-          cookies.set("auth_t", response?.data?.data, { path: "/" });
+          cookies.set("auth_t", response?.data?.data, {
+            path: "/",
+            domain: process.env.REACT_APP_DOMAIN,
+          });
           return http(config);
         }
       } catch (error) {

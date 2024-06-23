@@ -60,7 +60,10 @@ export const SignUp = () => {
         dispatch({ type: constants.HANDLE_LOADING, payload: false });
         return message.error("Thất bại !");
       }
-      cookies.set("auth_t", res?.data?.data, { path: "/" });
+      cookies.set("auth_t", res?.data?.data, {
+        path: "/",
+        domain: process.env.REACT_APP_DOMAIN,
+      });
       dispatch({ type: constants.HANDLE_LOADING, payload: false });
       navigate("/");
     } catch (error) {
@@ -133,7 +136,9 @@ export const SignUp = () => {
           <div className="sign-up-header">
             <div className="content">
               <Title>Đăng ký</Title>
-              <p className="text-lg">Chào mừng đến với Cultural Viet Nam CMS.</p>
+              <p className="text-lg">
+                Chào mừng đến với Cultural Viet Nam CMS.
+              </p>
             </div>
           </div>
 
