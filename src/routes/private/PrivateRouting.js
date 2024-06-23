@@ -1,5 +1,5 @@
 import Home from "../../pages/Home";
-import Folder from "../../pages/Folder";
+import PostManagement from "../../pages/PostManagement";
 import Api from "../../pages/Api";
 import PostManager from "../../pages/PostManager";
 const PrivateRouting = [
@@ -8,19 +8,19 @@ const PrivateRouting = [
     Component: Home,
   },
   {
-    path: "/folders",
-    Component: Folder,
+    path: "/post-manager",
+    Component: PostManagement,
   },
   {
-    path: "/folders/:id",
-    Component: Folder,
+    path: "/post-manager/:id",
+    Component: PostManager,
   },
   {
     path: "/api",
     Component: Api,
   },
   {
-    path: "/post-manager",
+    path: "/create-post",
     Component: PostManager,
   },
 ];

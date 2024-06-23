@@ -3,10 +3,12 @@ import { Menu, Button } from "antd";
 import { NavLink, useLocation } from "react-router-dom";
 import logo from "../../assets/images/logo.png";
 import { AiFillFileText } from "react-icons/ai";
+import { authHeader } from "../../config/instance";
+import { useSelector } from "react-redux";
 
 function Sidenav({ color }) {
+  const { user_details } = useSelector((state) => state?.user);
   const { pathname } = useLocation();
-  const page = pathname.replace("/", "");
 
   const dashboard = [
     <svg
@@ -75,6 +77,8 @@ function Sidenav({ color }) {
     </svg>,
   ];
 
+  const headerList = authHeader(user_details?.user_role?.role?.role_name);
+
   return (
     <>
       <div className="brand flex">
@@ -83,58 +87,23 @@ function Sidenav({ color }) {
       </div>
       <hr />
       <Menu theme="light" mode="inline">
-        <Menu.Item key="1">
-          <NavLink to="/dashboard">
-            <span
-              className="icon"
-              style={{
-                background: page === "dashboard" ? color : "",
-              }}
-            >
-              {dashboard}
-            </span>
-            <span className="label">Thống kê</span>
-          </NavLink>
-        </Menu.Item>
-        <Menu.Item key="2">
-          <NavLink to="/folders">
-            <span
-              className="icon"
-              style={{
-                background: page === "folder" ? color : "",
-              }}
-            >
-              {tables}
-            </span>
-            <span className="label">Quản lý bài viết</span>
-          </NavLink>
-        </Menu.Item>
-        <Menu.Item key="3">
-          <NavLink to="/api">
-            <span
-              className="icon"
-              style={{
-                background: page === "api" ? color : "",
-              }}
-            >
-              {billing}
-            </span>
-            <span className="label">API</span>
-          </NavLink>
-        </Menu.Item>
-        <Menu.Item key="4">
-          <NavLink to="/post-manager">
-            <span
-              className="icon"
-              style={{
-                background: page === "rtl" ? color : "",
-              }}
-            >
-              <AiFillFileText />
-            </span>
-            <span className="label">Tạo bài viết</span>
-          </NavLink>
-        </Menu.Item>
+        {headerList?.header?.map((val, idx) => {
+          return (
+            <Menu.Item key={idx}>
+              <NavLink to={val?.path}>
+                <span
+                  className="icon"
+                  style={{
+                    background: pathname === val?.path ? color : "",
+                  }}
+                >
+                  <i className="text-[18px]">{val?.icon}</i>
+                </span>
+                <span className="label">{val.title}</span>
+              </NavLink>
+            </Menu.Item>
+          );
+        })}
       </Menu>
     </>
   );

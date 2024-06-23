@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import EditorCommon from "../components/Editor/Editor";
 import { Button } from "antd";
-import { createPost } from "../api/api";
+import { createPost, updatePost, uploadFile } from "../api/api";
 import {
   Form,
   Input,
@@ -17,9 +17,15 @@ import { stringToSlug } from "../helper/helper";
 import axios from "axios";
 import LoadingScreen from "../components/loading/LoadingScreen";
 import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import { http } from "../config/http.config";
+import { checkResponse } from "../helper/helper";
+
 const { TextArea } = Input;
 
 const PostManager = () => {
+  const params = useParams();
+
   const editorRef = useRef();
   const form_ref = useRef();
   const { user_details } = useSelector((state) => state?.user);
@@ -33,6 +39,7 @@ const PostManager = () => {
     setLoadingSc(true);
     try {
       await form_ref?.current?.validateFields();
+
       const content_html = editorRef.current.getContent();
       if (!content_html || content_html?.trim() === "") {
         return message.error("Vui lòng nhập nội dung bài đăng !");
@@ -50,16 +57,33 @@ const PostManager = () => {
         slug: url,
         author: 1,
       };
-      await createPost(data);
-      message.success("Tạo bài viết thành công !");
+      if (params?.id) {
+        const checkFail = await updatePost({ ...data, id: params?.id });
+        if (!checkFail) {
+          return message.error("Thất bại!");
+        }
+      } else {
+        const checkFail = await createPost(data);
+
+        if (!checkFail) {
+          return message.error("Thất bại!");
+        }
+      }
+      message.success("Thành công !");
+      if (!params?.id) {
+        await form_ref?.current.resetFields();
+        setContent("");
+        setThumbnail("");
+        setUrl("");
+      }
     } catch (error) {
-      return message?.error("Tạo bài viết thất bại !");
-      // console.log(error);
+      if (!error?.outOfDate) {
+        return;
+      }
+      return message?.error("Thất bại !");
     } finally {
       setLoadingSc(false);
     }
-
-    // console.log(form_ref.current.getFieldsValue());
   };
 
   const onUpload = async (blobInfo, progress, failure) => {
@@ -108,10 +132,15 @@ const PostManager = () => {
       await formData.append("files", file);
 
       try {
-        const res = await axios.post(
+        const res = await uploadFile(
           `${process.env.REACT_APP_API_URL}/api/upload-file`,
           formData
         );
+
+        if (!res) {
+          return message.error("Thất bại !");
+        }
+
         setThumbnail(res?.data?.data?.url);
         message.success("Tải ảnh thành công");
       } catch (error) {
@@ -142,7 +171,32 @@ const PostManager = () => {
     };
   }, [content]);
 
-  console.log(user_details);
+  useEffect(() => {
+    if (params?.id) {
+      (async () => {
+        try {
+          const res = await http.get(`/api/details-post/${params?.id}`);
+          const { data } = checkResponse(res);
+
+          await form_ref?.current?.setFieldsValue({
+            title: data?.data?.title,
+            category_id: data?.data?.category_id,
+            key_seo: data?.data?.key_seo,
+            website_id: data?.data?.website_id,
+            des_seo: data?.data?.des_seo,
+          });
+          setUrl(data?.data?.url);
+          setThumbnail(data?.data?.thumbnail);
+          setContent(data?.data?.content);
+        } catch (error) {}
+      })();
+    } else {
+      form_ref?.current.resetFields();
+      setContent("");
+      setThumbnail("");
+      setUrl("");
+    }
+  }, [params?.id]);
 
   return (
     <>
@@ -350,7 +404,15 @@ const PostManager = () => {
                 </div>
               </div>
             </div>
-            <div className="px-5 py-10">
+            <div className="w-full py-[10px] px-5">
+              <Button
+                onClick={() => message.error("Tính năng đang phát triển !")}
+                style={{ width: "100%" }}
+              >
+                Chọn từ thư viện
+              </Button>
+            </div>
+            <div className="px-5">
               <div className="w-full">
                 <Button
                   type="primary"

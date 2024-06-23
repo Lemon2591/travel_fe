@@ -23,3 +23,12 @@
 .upload_css img {
     object-fit: cover !important;
 }
+
+.ant-popconfirm-buttons {
+    display: flex;
+}
+
+
+.ant-popconfirm-buttons .ant-btn-primary {
+    color: #fff;
+}

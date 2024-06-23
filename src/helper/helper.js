@@ -27,7 +27,7 @@ export const stringToSlug = (string) => {
 
 export const checkResponse = (res) => {
   if (res?.data?.statusCode !== 200) {
-    return message.error("Đăng bài thất bại hoặc đã xảy ra lỗi");
+    return false;
   }
   return res;
 };
