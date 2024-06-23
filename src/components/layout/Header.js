@@ -39,6 +39,7 @@ function Header({
         return dispatch({ type: constants.HANDLE_LOADING, payload: false });
       }
       await dispatch({ type: constants.HANDLE_LOADING, payload: false });
+      localStorage.clear();
       await navigate("/sign-in");
     } catch (error) {
       return dispatch({ type: constants.HANDLE_LOADING, payload: false });

@@ -1,9 +1,5 @@
 import axios from "axios";
-import Cookies from "universal-cookie";
 import { message } from "antd";
-
-const cookies = new Cookies();
-const token = cookies.get("auth_t");
 
 export const http = axios.create({
   baseURL: process.env.REACT_APP_API_URL,
@@ -22,10 +18,7 @@ http.interceptors.response.use(
       try {
         const response = await http.get("/api/refresh-token");
         if (response.data.statusCode === 200) {
-          cookies.set("auth_t", response?.data?.data, {
-            path: "/",
-            domain: process.env.REACT_APP_DOMAIN,
-          });
+          localStorage.setItem("auth_t", response?.data?.data);
           return http(config);
         }
       } catch (error) {
@@ -34,7 +27,7 @@ http.interceptors.response.use(
     }
     if (res.data.statusCode === 403) {
       localStorage.clear();
-      cookies.remove("auth_t");
+      localStorage.clear();
       window.location.href = "/";
     }
     return res;

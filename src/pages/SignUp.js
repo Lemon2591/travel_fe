@@ -60,10 +60,8 @@ export const SignUp = () => {
         dispatch({ type: constants.HANDLE_LOADING, payload: false });
         return message.error("Thất bại !");
       }
-      cookies.set("auth_t", res?.data?.data, {
-        path: "/",
-        domain: process.env.REACT_APP_DOMAIN,
-      });
+
+      localStorage.setItem("auth_t", res?.data?.data);
       dispatch({ type: constants.HANDLE_LOADING, payload: false });
       navigate("/");
     } catch (error) {
