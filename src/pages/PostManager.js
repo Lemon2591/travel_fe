@@ -349,13 +349,13 @@ const PostManager = () => {
                             onClick={() =>
                               window.open(
                                 url
-                                  ? `${process.env.REACT_APP_API_URL}/post/${url}`
+                                  ? `${process.env.REACT_APP_PAGE_URL}/post/${url}`
                                   : ""
                               )
                             }
                           >
                             {url
-                              ? `${process.env.REACT_APP_API_URL}/post/${url}`
+                              ? `${process.env.REACT_APP_PAGE_URL}/post/${url}`
                               : ""}
                           </span>
                         </>
@@ -365,7 +365,7 @@ const PostManager = () => {
                         disabled
                         value={
                           url
-                            ? `${process.env.REACT_APP_API_URL}/post/${url}`
+                            ? `${process.env.REACT_APP_PAGE_URL}/post/${url}`
                             : ""
                         }
                       />

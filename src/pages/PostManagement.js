@@ -201,11 +201,6 @@ const PostManagement = () => {
       setLoading(false);
     }
   };
-  useEffect(() => {
-    (async () => {
-      await getData();
-    })();
-  }, []);
 
   useEffect(() => {
     (async () => {
