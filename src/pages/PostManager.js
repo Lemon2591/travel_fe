@@ -14,7 +14,6 @@ import {
 } from "antd";
 import { AiFillCopy, AiOutlineUpload } from "react-icons/ai";
 import { stringToSlug } from "../helper/helper";
-import axios from "axios";
 import LoadingScreen from "../components/loading/LoadingScreen";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
@@ -90,12 +89,18 @@ const PostManager = () => {
     try {
       let imageUpload = blobInfo.blob();
       let formData = new FormData();
-      formData.append("files", imageUpload);
-      const res = await axios.post(
+      await formData.append("files", imageUpload);
+      await formData.append(
+        "data",
+        JSON.stringify({
+          author: user_details?.id,
+        })
+      );
+      const res = await uploadFile(
         `${process.env.REACT_APP_API_URL}/api/upload-file`,
         formData
       );
-      console.log(res?.data?.data?.url);
+
       return res?.data?.data?.url;
     } catch (error) {}
   };
@@ -130,6 +135,12 @@ const PostManager = () => {
 
       const formData = await new FormData();
       await formData.append("files", file);
+      await formData.append(
+        "data",
+        JSON.stringify({
+          author: user_details?.id,
+        })
+      );
 
       try {
         const res = await uploadFile(
