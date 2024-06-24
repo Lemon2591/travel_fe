@@ -52,7 +52,7 @@ const PostManager = () => {
         ...form_ref.current.getFieldsValue(),
         content: content_html,
         thumbnail: thumbnail,
-        url: `${process.env.REACT_APP_API_URL}/post/${url}`,
+        url: `${process.env.REACT_APP_PAGE_URL}/post/${url}`,
         slug: url,
         author: 1,
       };
@@ -89,8 +89,8 @@ const PostManager = () => {
     try {
       let imageUpload = blobInfo.blob();
       let formData = new FormData();
-      await formData.append("files", imageUpload);
-      await formData.append(
+      formData.append("files", imageUpload);
+      formData.append(
         "data",
         JSON.stringify({
           author: user_details?.id,
@@ -196,7 +196,7 @@ const PostManager = () => {
             website_id: data?.data?.website_id,
             des_seo: data?.data?.des_seo,
           });
-          setUrl(data?.data?.url);
+          setUrl(data?.data?.slug);
           setThumbnail(data?.data?.thumbnail);
           setContent(data?.data?.content);
         } catch (error) {}
