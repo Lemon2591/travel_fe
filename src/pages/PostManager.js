@@ -86,6 +86,7 @@ const PostManager = () => {
   };
 
   const onUpload = async (blobInfo, progress, failure) => {
+    console.log(user_details);
     try {
       let imageUpload = blobInfo.blob();
       let formData = new FormData();
@@ -310,16 +311,17 @@ const PostManager = () => {
                 </Form.Item>
               </div>
             </div>
-
-            <div className="py-5">
-              <EditorCommon
-                type={"training"}
-                data={content}
-                ref={editorRef}
-                onUpload={onUpload}
-                setContent={setContent}
-              />
-            </div>
+            {user_details?.id && (
+              <div className="py-5">
+                <EditorCommon
+                  type={"training"}
+                  data={content}
+                  ref={editorRef}
+                  onUpload={onUpload}
+                  setContent={setContent}
+                />
+              </div>
+            )}
           </div>
           <div className="post_right px-5">
             <div className=" px-5">

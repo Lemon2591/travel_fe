@@ -32,3 +32,13 @@
 .ant-popconfirm-buttons .ant-btn-primary {
     color: #fff;
 }
+
+
+.hover-card {
+    transition: .3s;
+}
+
+.hover-card:hover {
+    color: #fff;
+    background-color: #4da9ff !important;
+}

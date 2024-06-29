@@ -2,6 +2,7 @@ import {
   AiOutlineBarChart,
   AiOutlineFile,
   AiOutlineGroup,
+  AiFillAppstore,
 } from "react-icons/ai";
 
 export const authHeader = (role) => {
@@ -23,6 +24,11 @@ export const authHeader = (role) => {
           title: "Tạo bài viết",
           icon: <AiOutlineFile />,
           path: "/create-post",
+        },
+        {
+          title: "Kho ảnh",
+          icon: <AiFillAppstore />,
+          path: "/store-media",
         },
       ],
     },

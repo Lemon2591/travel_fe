@@ -2,6 +2,8 @@ import Home from "../../pages/Home";
 import PostManagement from "../../pages/PostManagement";
 import Api from "../../pages/Api";
 import PostManager from "../../pages/PostManager";
+import StoreMedia from "../../pages/StoreMedia";
+
 const PrivateRouting = [
   {
     path: "/dashboard",
@@ -22,6 +24,10 @@ const PrivateRouting = [
   {
     path: "/create-post",
     Component: PostManager,
+  },
+  {
+    path: "/store-media",
+    Component: StoreMedia,
   },
 ];
 
