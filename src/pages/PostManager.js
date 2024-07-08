@@ -38,21 +38,21 @@ const PostManager = () => {
     setLoadingSc(true);
     try {
       await form_ref?.current?.validateFields();
-
       const content_html = editorRef.current.getContent();
       if (!content_html || content_html?.trim() === "") {
         return message.error("Vui lòng nhập nội dung bài đăng !");
       }
-
       if (!thumbnail) {
         return message.error("Vui lòng đăng tải ảnh !");
       }
-
+      const category = user_details?.category_list?.find(
+        (val) => val?.category_id === form_ref.current.getFieldsValue()?.id
+      );
       let data = {
         ...form_ref.current.getFieldsValue(),
         content: content_html,
         thumbnail: thumbnail,
-        url: `${process.env.REACT_APP_PAGE_URL}/post/${url}`,
+        url: `${process.env.REACT_APP_PAGE_URL}/${category?.slug}/${url}`,
         slug: url,
         author: 1,
       };
@@ -86,7 +86,6 @@ const PostManager = () => {
   };
 
   const onUpload = async (blobInfo, progress, failure) => {
-    console.log(user_details);
     try {
       let imageUpload = blobInfo.blob();
       let formData = new FormData();
