@@ -45,15 +45,13 @@ const PostManager = () => {
       if (!thumbnail) {
         return message.error("Vui lòng đăng tải ảnh !");
       }
-      const category = user_details?.category_list?.find(
-        (val) => val?.category_id === form_ref.current.getFieldsValue()?.id
-      );
+      const slug = stringToSlug(form_ref.current.getFieldsValue()?.title);
       let data = {
         ...form_ref.current.getFieldsValue(),
         content: content_html,
         thumbnail: thumbnail,
-        url: `${process.env.REACT_APP_PAGE_URL}/${category?.slug}/${url}`,
-        slug: url,
+        url: url,
+        slug: slug,
         author: 1,
       };
       if (params?.id) {
@@ -69,6 +67,7 @@ const PostManager = () => {
         }
       }
       message.success("Thành công !");
+
       if (!params?.id) {
         await form_ref?.current.resetFields();
         setContent("");
@@ -164,7 +163,16 @@ const PostManager = () => {
   };
   const handleConvertUrl = (text) => {
     const slug = stringToSlug(text);
-    setUrl(slug);
+    const category = user_details?.category_list?.find(
+      (val) => val?.id === form_ref.current.getFieldsValue()?.category_id
+    );
+
+    if (!category) {
+      return setUrl(`${process.env.REACT_APP_PAGE_URL}`);
+    }
+
+    const url_text = `${process.env.REACT_APP_PAGE_URL}/${category?.slug}/${slug}`;
+    setUrl(url_text);
   };
 
   useEffect(() => {
@@ -196,7 +204,7 @@ const PostManager = () => {
             website_id: data?.data?.website_id,
             des_seo: data?.data?.des_seo,
           });
-          setUrl(data?.data?.slug);
+          setUrl(data?.data?.url);
           setThumbnail(data?.data?.thumbnail);
           setContent(data?.data?.content);
         } catch (error) {}
@@ -261,6 +269,11 @@ const PostManager = () => {
                         label: val?.category_name,
                         value: val?.id,
                       }))}
+                      onChange={() =>
+                        handleConvertUrl(
+                          form_ref.current.getFieldsValue().title
+                        )
+                      }
                     />
                   </Form.Item>
                 </div>
@@ -358,29 +371,14 @@ const PostManager = () => {
                         <>
                           <span
                             className="cursor-pointer"
-                            onClick={() =>
-                              window.open(
-                                url
-                                  ? `${process.env.REACT_APP_PAGE_URL}/post/${url}`
-                                  : ""
-                              )
-                            }
+                            onClick={() => window.open(url ? url : "")}
                           >
-                            {url
-                              ? `${process.env.REACT_APP_PAGE_URL}/post/${url}`
-                              : ""}
+                            {url ? url : ""}
                           </span>
                         </>
                       }
                     >
-                      <Input
-                        disabled
-                        value={
-                          url
-                            ? `${process.env.REACT_APP_PAGE_URL}/post/${url}`
-                            : ""
-                        }
-                      />
+                      <Input disabled value={url ? url : ""} />
                     </Tooltip>
                   </div>
                   <div className="w-7">
