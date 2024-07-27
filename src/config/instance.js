@@ -10,11 +10,11 @@ export const authHeader = (role) => {
     {
       role: "system_admin",
       header: [
-        // {
-        //   title: "Thống kê",
-        //   icon: <AiOutlineBarChart />,
-        //   path: "/dashboard",
-        // },
+        {
+          title: "Thống kê",
+          icon: <AiOutlineBarChart />,
+          path: "/dashboard",
+        },
         {
           title: "Quản lý bài viết",
           icon: <AiOutlineGroup />,

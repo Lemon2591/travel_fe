@@ -1,9 +1,12 @@
 const eChart = {
   series: [
     {
-      name: "Number of api calls",
-      data: [450, 200, 100, 220, 500, 100, 400],
-      color: "#fff",
+      name: "Lượt truy cập",
+      data: [350, 40, 300, 220, 500, 250, 400, 230, 0],
+    },
+    {
+      name: "Websites",
+      data: [30, 90, 40, 140, 290, 290, 340, 230, 400],
     },
   ],
 

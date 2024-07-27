@@ -15,9 +15,11 @@ body {
   font-weight: 400;
   font-family: open sans, Helvetica, Arial, sans-serif !important;
 }
+
 .tox-statusbar__path-item {
   display: none !important;
 }
+
 .ant-layout.ant-layout-has-sider {
   flex-direction: row;
 }
@@ -962,11 +964,11 @@ button.ant-btn.bell strong {
 }
 
 .sales ul li:first-child span.anticon {
-  color: #b37feb;
+  color: #008ffb;
 }
 
 .sales ul li:last-child span.anticon {
-  color: #1890ff;
+  color: #00e396;
 }
 
 .sales ul li {
@@ -1953,7 +1955,7 @@ body {
 }
 
 .ant-btn {
-  color: #2d2d2d;
+  /* color: #2d2d2d; */
   display: flex;
   align-items: center;
   justify-content: center;

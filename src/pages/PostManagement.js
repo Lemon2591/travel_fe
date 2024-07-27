@@ -330,9 +330,13 @@ const PostManagement = () => {
           loading={loading}
         />
       </div>
-
+      <div className="mt-[25px]">
+        <p className="font-[600]">
+          Tổng bài viết: <span>{dataTable?.total}</span>
+        </p>
+      </div>
       {dataTable?.total > 10 && (
-        <div className="text-center mt-[50px]">
+        <div className="text-center mt-[20px]">
           <Pagination
             current={dataTable?.page}
             total={dataTable?.total}

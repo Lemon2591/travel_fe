@@ -2,48 +2,128 @@ import ReactApexChart from "react-apexcharts";
 import { Row, Col, Typography } from "antd";
 import eChart from "./configs/eChart";
 
-function EChart() {
-  const { Title, Paragraph } = Typography;
+function EChart({ series, categories, dataChart }) {
+  const { Title } = Typography;
 
-  const items = [
-    {
-      type: "Image",
-      per: "50%",
+  const data = {
+    series: [
+      {
+        name: "Lượt truy cập",
+        data: [350, 40, 300, 220, 500, 250, 400, 230, 0],
+      },
+      {
+        name: "Websites",
+        data: [30, 90, 40, 140, 290, 290, 340, 230, 400],
+      },
+    ],
+
+    options: {
+      chart: {
+        type: "bar",
+        width: "100%",
+        height: "auto",
+
+        toolbar: {
+          show: false,
+        },
+      },
+      plotOptions: {
+        bar: {
+          horizontal: false,
+          columnWidth: "55%",
+          borderRadius: 5,
+        },
+      },
+      dataLabels: {
+        enabled: false,
+      },
+      stroke: {
+        show: true,
+        width: 1,
+        colors: ["transparent"],
+      },
+      grid: {
+        show: true,
+        borderColor: "#ccc",
+        strokeDashArray: 2,
+      },
+      xaxis: {
+        categories: categories || [],
+        labels: {
+          show: true,
+          align: "right",
+          minWidth: 0,
+          maxWidth: 160,
+          style: {
+            colors: [
+              "#fff",
+              "#fff",
+              "#fff",
+              "#fff",
+              "#fff",
+              "#fff",
+              "#fff",
+              "#fff",
+              "#fff",
+              "#fff",
+            ],
+          },
+        },
+      },
+      yaxis: {
+        labels: {
+          show: true,
+          align: "right",
+          minWidth: 0,
+          maxWidth: 160,
+          style: {
+            colors: [
+              "#fff",
+              "#fff",
+              "#fff",
+              "#fff",
+              "#fff",
+              "#fff",
+              "#fff",
+              "#fff",
+              "#fff",
+              "#fff",
+            ],
+          },
+        },
+      },
+
+      tooltip: {
+        y: {
+          formatter: function (val) {
+            return val;
+          },
+        },
+      },
     },
-
-    {
-      type: "Video",
-      per: "50%",
-    },
-  ];
-
+  };
   return (
     <>
       <div id="chart">
         <ReactApexChart
           className="bar-chart"
-          options={eChart.options}
-          series={eChart.series}
+          options={data.options}
+          series={series}
           type="bar"
           height={220}
         />
       </div>
-      <div className="chart-vistior">
-        <Title level={5}>Number of api calls</Title>
-        <Paragraph className="lastweek">
-          The bar chart illustrates the number of api calls.
-        </Paragraph>
-
-        <Title level={5}> The percentage of file format.</Title>
+      <div className="chart-vistior mb-5">
+        <div className="my-5">
+          <Title level={5}>Thống kê số lượng người dùng</Title>
+        </div>
         <Row gutter>
-          {items.map((v, index) => (
-            <Col xs={6} xl={6} sm={6} md={6} key={index}>
-              <div className="chart-visitor-count">
-                <Title level={4}>{v.type}</Title>
-                <span>{v.per}</span>
-              </div>
-            </Col>
-          ))}
+          <Col xs={6} xl={6} sm={6} md={6}>
+            <div className="chart-visitor-count">
+              <Title level={4}>Trổng số user</Title>
+              <span>Người dùng: {dataChart?.totalUsers}</span>
+            </div>
+          </Col>
         </Row>
       </div>
     </>
